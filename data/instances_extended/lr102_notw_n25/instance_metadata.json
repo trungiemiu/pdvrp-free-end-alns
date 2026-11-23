@@ -1,0 +1,390 @@
+{
+  "instance_id": "lr102_notw_n25",
+  "source_zip": "D:\\Project\\COMOS 2026\\PD VRP\\data\\pdptw\\pdp_100.zip",
+  "source_member": "pdp_100/lr102.txt",
+  "transformation": "PDPTW to PDVRP by removing all time windows and service times",
+  "coordinate_metric": "Euclidean",
+  "original_vehicle_count": 25,
+  "used_vehicle_count": 6,
+  "capacity": 200.0,
+  "speed": 1.0,
+  "orders": 25,
+  "is_truncated_subset": true,
+  "order_mapping": [
+    {
+      "order_id": "O01",
+      "original_pickup_id": 3,
+      "original_delivery_id": 106,
+      "removed_pickup_tw": [
+        0.0,
+        197.0
+      ],
+      "removed_delivery_tw": [
+        0.0,
+        197.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O02",
+      "original_pickup_id": 4,
+      "original_delivery_id": 25,
+      "removed_pickup_tw": [
+        149.0,
+        159.0
+      ],
+      "removed_delivery_tw": [
+        172.0,
+        182.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O03",
+      "original_pickup_id": 5,
+      "original_delivery_id": 89,
+      "removed_pickup_tw": [
+        0.0,
+        199.0
+      ],
+      "removed_delivery_tw": [
+        176.0,
+        186.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O04",
+      "original_pickup_id": 7,
+      "original_delivery_id": 19,
+      "removed_pickup_tw": [
+        0.0,
+        198.0
+      ],
+      "removed_delivery_tw": [
+        76.0,
+        86.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O05",
+      "original_pickup_id": 10,
+      "original_delivery_id": 109,
+      "removed_pickup_tw": [
+        124.0,
+        134.0
+      ],
+      "removed_delivery_tw": [
+        124.0,
+        134.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O06",
+      "original_pickup_id": 14,
+      "original_delivery_id": 2,
+      "removed_pickup_tw": [
+        32.0,
+        42.0
+      ],
+      "removed_delivery_tw": [
+        0.0,
+        202.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O07",
+      "original_pickup_id": 17,
+      "original_delivery_id": 93,
+      "removed_pickup_tw": [
+        157.0,
+        167.0
+      ],
+      "removed_delivery_tw": [
+        188.0,
+        198.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O08",
+      "original_pickup_id": 22,
+      "original_delivery_id": 103,
+      "removed_pickup_tw": [
+        97.0,
+        107.0
+      ],
+      "removed_delivery_tw": [
+        97.0,
+        107.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O09",
+      "original_pickup_id": 23,
+      "original_delivery_id": 26,
+      "removed_pickup_tw": [
+        68.0,
+        78.0
+      ],
+      "removed_delivery_tw": [
+        0.0,
+        208.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O10",
+      "original_pickup_id": 27,
+      "original_delivery_id": 101,
+      "removed_pickup_tw": [
+        37.0,
+        47.0
+      ],
+      "removed_delivery_tw": [
+        37.0,
+        47.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O11",
+      "original_pickup_id": 28,
+      "original_delivery_id": 29,
+      "removed_pickup_tw": [
+        39.0,
+        49.0
+      ],
+      "removed_delivery_tw": [
+        63.0,
+        73.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O12",
+      "original_pickup_id": 30,
+      "original_delivery_id": 9,
+      "removed_pickup_tw": [
+        71.0,
+        81.0
+      ],
+      "removed_delivery_tw": [
+        97.0,
+        107.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O13",
+      "original_pickup_id": 32,
+      "original_delivery_id": 70,
+      "removed_pickup_tw": [
+        141.0,
+        151.0
+      ],
+      "removed_delivery_tw": [
+        182.0,
+        192.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O14",
+      "original_pickup_id": 33,
+      "original_delivery_id": 51,
+      "removed_pickup_tw": [
+        37.0,
+        47.0
+      ],
+      "removed_delivery_tw": [
+        88.0,
+        98.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O15",
+      "original_pickup_id": 35,
+      "original_delivery_id": 77,
+      "removed_pickup_tw": [
+        143.0,
+        153.0
+      ],
+      "removed_delivery_tw": [
+        179.0,
+        189.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O16",
+      "original_pickup_id": 36,
+      "original_delivery_id": 104,
+      "removed_pickup_tw": [
+        41.0,
+        51.0
+      ],
+      "removed_delivery_tw": [
+        41.0,
+        51.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O17",
+      "original_pickup_id": 39,
+      "original_delivery_id": 55,
+      "removed_pickup_tw": [
+        44.0,
+        54.0
+      ],
+      "removed_delivery_tw": [
+        136.0,
+        146.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O18",
+      "original_pickup_id": 40,
+      "original_delivery_id": 53,
+      "removed_pickup_tw": [
+        85.0,
+        95.0
+      ],
+      "removed_delivery_tw": [
+        95.0,
+        105.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O19",
+      "original_pickup_id": 41,
+      "original_delivery_id": 21,
+      "removed_pickup_tw": [
+        97.0,
+        107.0
+      ],
+      "removed_delivery_tw": [
+        0.0,
+        201.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O20",
+      "original_pickup_id": 42,
+      "original_delivery_id": 15,
+      "removed_pickup_tw": [
+        31.0,
+        41.0
+      ],
+      "removed_delivery_tw": [
+        61.0,
+        71.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O21",
+      "original_pickup_id": 43,
+      "original_delivery_id": 58,
+      "removed_pickup_tw": [
+        132.0,
+        142.0
+      ],
+      "removed_delivery_tw": [
+        200.0,
+        210.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O22",
+      "original_pickup_id": 44,
+      "original_delivery_id": 38,
+      "removed_pickup_tw": [
+        69.0,
+        79.0
+      ],
+      "removed_delivery_tw": [
+        83.0,
+        93.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O23",
+      "original_pickup_id": 45,
+      "original_delivery_id": 84,
+      "removed_pickup_tw": [
+        32.0,
+        42.0
+      ],
+      "removed_delivery_tw": [
+        101.0,
+        111.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O24",
+      "original_pickup_id": 47,
+      "original_delivery_id": 18,
+      "removed_pickup_tw": [
+        51.0,
+        61.0
+      ],
+      "removed_delivery_tw": [
+        87.0,
+        97.0
+      ],
+      "removed_pickup_service_time": 10.0,
+      "removed_delivery_service_time": 10.0
+    },
+    {
+      "order_id": "O25",
+      "original_pickup_id": 48,
+      "original_delivery_id": 105,
+      "removed_pickup_tw": [
+        0.0,
+        192.0
+      ],
+      "removed_delivery_tw": [
+        0.0,
+        192.0
+      ],
+      "removed_pickup_service_time": 0.0,
+      "removed_delivery_service_time": 10.0
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "instance_id": "lc101_n04",
+  "source_instance": "lc101_notw_subset12",
+  "orders": 4,
+  "drivers": 2,
+  "purpose": "exact cost-optimality and independent implementation validation",
+  "selection_rule": "first N requests from the registered development instance"
+}

@@ -1,0 +1,11 @@
+pandas
+numpy
+matplotlib
+folium
+geopy
+tqdm
+scipy
+ortools==9.5.2237; python_version < "3.8"
+ortools; python_version >= "3.8"
+pulp==2.7.0; python_version < "3.8"
+pulp; python_version >= "3.8"

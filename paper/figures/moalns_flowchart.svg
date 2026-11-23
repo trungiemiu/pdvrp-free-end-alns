@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2350" viewBox="0 0 1800 2350" role="img" aria-labelledby="title desc">
+  <title id="title">MOALNS optimization and decision-support flowchart</title>
+  <desc id="desc">Flow from data loading and initial construction through the iterative MOALNS search, Pareto archive, and post-optimization decision support.</desc>
+  <defs>
+    <style>
+      .title { font: 700 44px Arial, sans-serif; fill: #172033; }
+      .section { font: 700 25px Arial, sans-serif; letter-spacing: 1.5px; fill: #35506f; }
+      .nodeText { font: 600 27px Arial, sans-serif; fill: #172033; text-anchor: middle; dominant-baseline: middle; }
+      .smallText { font: 500 23px Arial, sans-serif; fill: #344054; text-anchor: middle; dominant-baseline: middle; }
+      .legendText { font: 500 23px Arial, sans-serif; fill: #344054; dominant-baseline: middle; }
+      .edgeLabel { font: 700 23px Arial, sans-serif; fill: #344054; paint-order: stroke; stroke: white; stroke-width: 8px; stroke-linejoin: round; }
+      .box { stroke: #334155; stroke-width: 3; rx: 22; ry: 22; }
+      .input { fill: #eef2f6; }
+      .init { fill: #dcecff; stroke: #245b91; }
+      .control { fill: #e7e3ff; stroke: #5b4aa2; }
+      .operator { fill: #fff0d5; stroke: #9b5c14; }
+      .evaluate { fill: #dff4e8; stroke: #27704a; }
+      .archive { fill: #eadff6; stroke: #70439a; }
+      .decision { fill: #fff7c8; stroke: #856f00; stroke-width: 3; }
+      .output { fill: #d7f3f0; stroke: #176c68; }
+      .arrow { fill: none; stroke: #475467; stroke-width: 3; marker-end: url(#arrowhead); }
+      .bottomArrow { fill: none; stroke: #475467; stroke-width: 4; marker-end: url(#arrowheadLarge); }
+      .connector { fill: none; stroke: #475467; stroke-width: 3; }
+      .loop { fill: none; stroke: #245b91; stroke-width: 3; stroke-dasharray: 12 10; marker-end: url(#arrowheadBlue); }
+      .lane { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 30; ry: 30; }
+    </style>
+    <marker id="arrowhead" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L17,9 L0,17 z" fill="#475467"/>
+    </marker>
+    <marker id="arrowheadBlue" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L17,9 L0,17 z" fill="#245b91"/>
+    </marker>
+    <marker id="arrowheadLarge" markerWidth="26" markerHeight="26" refX="23" refY="13" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,1 L24,13 L0,25 z" fill="#475467"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#101828" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="2350" fill="#ffffff"/>
+  <text x="900" y="66" class="title" text-anchor="middle">MOALNS Optimization and Decision-Support Workflow</text>
+
+  <rect x="85" y="105" width="1100" height="2190" class="lane"/>
+  <text x="125" y="150" class="section">MULTI-OBJECTIVE SEARCH</text>
+  <rect x="1220" y="460" width="510" height="820" class="lane"/>
+  <text x="1260" y="505" class="section">DECISION SUPPORT</text>
+
+  <!-- Main search nodes -->
+  <g filter="url(#shadow)">
+    <rect x="280" y="185" width="700" height="110" class="box input"/>
+    <rect x="280" y="345" width="700" height="110" class="box init"/>
+    <rect x="280" y="505" width="700" height="110" class="box archive"/>
+  </g>
+  <text x="630" y="227" class="nodeText">
+    <tspan x="630" dy="0">Load requests, drivers, and directed</tspan>
+    <tspan x="630" dy="34">distance and duration matrices</tspan>
+  </text>
+  <text x="630" y="387" class="nodeText">
+    <tspan x="630" dy="0">Construct a feasible initial solution</tspan>
+    <tspan x="630" dy="34">using regret-3 insertion</tspan>
+  </text>
+  <text x="630" y="547" class="nodeText">
+    <tspan x="630" dy="0">Evaluate three objectives and initialize</tspan>
+    <tspan x="630" dy="34">the bounded Pareto archive</tspan>
+  </text>
+
+  <!-- Stopping decision -->
+  <polygon points="630,655 900,765 630,875 360,765" class="decision" filter="url(#shadow)"/>
+  <text x="630" y="747" class="nodeText">
+    <tspan x="630" dy="0">Iteration or wall-clock</tspan>
+    <tspan x="630" dy="34">limit reached?</tspan>
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="280" y="925" width="700" height="125" class="box control"/>
+    <rect x="280" y="1100" width="700" height="125" class="box control"/>
+    <rect x="280" y="1275" width="700" height="125" class="box operator"/>
+    <rect x="280" y="1450" width="700" height="125" class="box evaluate"/>
+    <rect x="280" y="1625" width="700" height="125" class="box archive"/>
+  </g>
+  <text x="630" y="970" class="nodeText">
+    <tspan x="630" dy="0">Optionally select an archive parent;</tspan>
+    <tspan x="630" dy="34">sample objective weights and destroy size</tspan>
+  </text>
+  <text x="630" y="1145" class="nodeText">
+    <tspan x="630" dy="0">Select destroy and repair operators</tspan>
+    <tspan x="630" dy="34">according to adaptive weights</tspan>
+  </text>
+  <text x="630" y="1320" class="nodeText">
+    <tspan x="630" dy="0">Destroy paired requests and repair all</tspan>
+    <tspan x="630" dy="34">requests using feasible insertions</tspan>
+  </text>
+  <text x="630" y="1495" class="nodeText">
+    <tspan x="630" dy="0">Evaluate cost, maximum duration,</tspan>
+    <tspan x="630" dy="34">and within-type workload imbalance</tspan>
+  </text>
+  <text x="630" y="1670" class="nodeText">
+    <tspan x="630" dy="0">Update Pareto archive, crowding control,</tspan>
+    <tspan x="630" dy="34">and operator rewards</tspan>
+  </text>
+
+  <!-- Acceptance decision and branches -->
+  <polygon points="630,1800 930,1915 630,2030 330,1915" class="decision" filter="url(#shadow)"/>
+  <text x="630" y="1898" class="nodeText">
+    <tspan x="630" dy="0">Dominating, scalar-improving,</tspan>
+    <tspan x="630" dy="34">or SA-accepted?</tspan>
+  </text>
+  <g filter="url(#shadow)">
+    <rect x="130" y="2080" width="430" height="100" class="box evaluate"/>
+    <rect x="700" y="2080" width="430" height="100" class="box input"/>
+    <rect x="280" y="2235" width="700" height="105" class="box control"/>
+  </g>
+  <text x="345" y="2130" class="nodeText">Replace current solution</text>
+  <text x="915" y="2130" class="nodeText">Retain current solution</text>
+  <text x="630" y="2269" class="nodeText">
+    <tspan x="630" dy="0">Cool temperature and periodically</tspan>
+    <tspan x="630" dy="34">update operator weights</tspan>
+  </text>
+
+  <!-- Decision-support nodes -->
+  <g filter="url(#shadow)">
+    <rect x="1290" y="580" width="370" height="130" class="box archive"/>
+    <rect x="1290" y="820" width="370" height="150" class="box decision"/>
+    <rect x="1290" y="1080" width="370" height="130" class="box output"/>
+  </g>
+  <text x="1475" y="626" class="nodeText">
+    <tspan x="1475" dy="0">Return the final</tspan>
+    <tspan x="1475" dy="34">non-dominated archive</tspan>
+  </text>
+  <text x="1475" y="862" class="nodeText">
+    <tspan x="1475" dy="0">Apply preference weights</tspan>
+    <tspan x="1475" dy="34">with TOPSIS and</tspan>
+    <tspan x="1475" dy="34">PROMETHEE II</tspan>
+  </text>
+  <text x="1475" y="1126" class="nodeText">
+    <tspan x="1475" dy="0">Present the selected</tspan>
+    <tspan x="1475" dy="34">operational route plan</tspan>
+  </text>
+
+  <!-- Main arrows -->
+  <path d="M630 303 L630 337" class="arrow"/>
+  <path d="M630 463 L630 497" class="arrow"/>
+  <path d="M630 623 L630 647" class="arrow"/>
+  <path d="M630 883 L630 917" class="arrow"/>
+  <text x="652" y="902" class="edgeLabel">No</text>
+  <path d="M630 1058 L630 1092" class="arrow"/>
+  <path d="M630 1233 L630 1267" class="arrow"/>
+  <path d="M630 1408 L630 1442" class="arrow"/>
+  <path d="M630 1583 L630 1617" class="arrow"/>
+  <path d="M630 1758 L630 1792" class="arrow"/>
+  <path d="M438 1998 L355 2070" class="arrow"/>
+  <text x="378" y="2028" class="edgeLabel">Yes</text>
+  <path d="M822 1998 L905 2070" class="arrow"/>
+  <text x="872" y="2028" class="edgeLabel">No</text>
+  <path d="M345 2180 L345 2188 L630 2188" class="connector"/>
+  <path d="M915 2180 L915 2188 L630 2188" class="connector"/>
+  <path d="M630 2188 L630 2225" class="bottomArrow"/>
+
+  <!-- Iteration loop -->
+  <path d="M272 2288 L165 2288 L165 765 L345 765" class="loop"/>
+  <text x="186" y="1510" class="edgeLabel" transform="rotate(-90 186 1510)">Next iteration</text>
+
+  <!-- Exit and decision-support arrows -->
+  <path d="M908 765 L1120 765 L1120 645 L1282 645" class="arrow"/>
+  <text x="1028" y="742" class="edgeLabel">Yes</text>
+  <path d="M1475 718 L1475 812" class="arrow"/>
+  <path d="M1475 978 L1475 1072" class="arrow"/>
+
+  <!-- Compact legend -->
+  <g transform="translate(1245,1355)">
+    <text x="0" y="0" class="section">OPERATOR POOL</text>
+    <rect x="0" y="38" width="445" height="255" rx="22" ry="22" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="34" cy="82" r="10" fill="#9b5c14"/>
+    <text x="60" y="84" class="legendText">Destroy: random, worst,</text>
+    <text x="60" y="118" class="legendText">related, route, free-end tail</text>
+    <circle cx="34" cy="166" r="10" fill="#245b91"/>
+    <text x="60" y="168" class="legendText">Repair: greedy, noisy,</text>
+    <text x="60" y="202" class="legendText">regret-2, regret-3, tail-only</text>
+    <circle cx="34" cy="250" r="10" fill="#70439a"/>
+    <text x="60" y="252" class="legendText">Archive limit: 100 solutions</text>
+  </g>
+</svg>

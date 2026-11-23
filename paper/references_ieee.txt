@@ -1,0 +1,33 @@
+REFERENCES
+
+[1] M. W. P. Savelsbergh and M. Sol, “The general pickup and delivery problem,” Transportation Science, vol. 29, no. 1, pp. 17–29, 1995, doi: 10.1287/trsc.29.1.17.
+
+[2] H. Li and A. Lim, “A metaheuristic for the pickup and delivery problem with time windows,” International Journal on Artificial Intelligence Tools, vol. 12, no. 2, pp. 173–186, 2003, doi: 10.1142/S0218213003001186.
+
+[3] S. Ropke and D. Pisinger, “An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows,” Transportation Science, vol. 40, no. 4, pp. 455–472, 2006, doi: 10.1287/trsc.1050.0135.
+
+[4] N. Jozefowiez, F. Semet, and E.-G. Talbi, “Multi-objective vehicle routing problems,” European Journal of Operational Research, vol. 189, no. 2, pp. 293–309, 2008, doi: 10.1016/j.ejor.2007.05.055.
+
+[5] K. Deb, A. Pratap, S. Agarwal, and T. Meyarivan, “A fast and elitist multiobjective genetic algorithm: NSGA-II,” IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182–197, 2002, doi: 10.1109/4235.996017.
+
+[6] Q. Zhang and H. Li, “MOEA/D: A multiobjective evolutionary algorithm based on decomposition,” IEEE Transactions on Evolutionary Computation, vol. 11, no. 6, pp. 712–731, 2007, doi: 10.1109/TEVC.2007.892759.
+
+[7] G. Mavrotas, “Effective implementation of the epsilon-constraint method in multi-objective mathematical programming problems,” Applied Mathematics and Computation, vol. 213, no. 2, pp. 455–465, 2009, doi: 10.1016/j.amc.2009.03.037.
+
+[8] E. Zitzler and L. Thiele, “Multiobjective evolutionary algorithms: A comparative case study and the strength Pareto approach,” IEEE Transactions on Evolutionary Computation, vol. 3, no. 4, pp. 257–271, 1999, doi: 10.1109/4235.797969.
+
+[9] P. Matl, R. F. Hartl, and T. Vidal, “Workload equity in vehicle routing problems: A survey and analysis,” Transportation Science, vol. 52, no. 2, pp. 239–260, 2018, doi: 10.1287/trsc.2017.0744.
+
+[10] D. Sariklis and S. Powell, “A heuristic method for the open vehicle routing problem,” Journal of the Operational Research Society, vol. 51, no. 5, pp. 564–573, 2000, doi: 10.2307/254187.
+
+[11] J. Brandão, “A tabu search algorithm for the open vehicle routing problem,” European Journal of Operational Research, vol. 157, no. 3, pp. 552–564, 2004, doi: 10.1016/S0377-2217(03)00238-8.
+
+[12] D. Pisinger and S. Røpke, “A general heuristic for vehicle routing problems,” Computers & Operations Research, vol. 34, no. 8, pp. 2403–2435, 2007, doi: 10.1016/j.cor.2005.09.012.
+
+[13] S. N. Parragh, K. F. Doerner, and R. F. Hartl, “A survey on pickup and delivery problems. Part II: Transportation between pickup and delivery locations,” Journal für Betriebswirtschaft, vol. 58, no. 2, pp. 81–117, 2008, doi: 10.1007/s11301-008-0036-4.
+
+[14] C.-L. Hwang and K. Yoon, Multiple Attribute Decision Making: Methods and Applications—A State-of-the-Art Survey, Lecture Notes in Economics and Mathematical Systems, vol. 186. Berlin, Germany: Springer, 1981, doi: 10.1007/978-3-642-48318-9.
+
+[15] J.-P. Brans and P. Vincke, “Note—A preference ranking organisation method,” Management Science, vol. 31, no. 6, pp. 647–656, 1985, doi: 10.1287/mnsc.31.6.647.
+
+[16] S. Voigt, “A review and ranking of operators in adaptive large neighborhood search for vehicle routing problems,” European Journal of Operational Research, vol. 322, no. 2, pp. 357–375, 2025, doi: 10.1016/j.ejor.2024.05.033.

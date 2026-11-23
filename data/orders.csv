@@ -1,0 +1,28 @@
+order_id,pickup_address,delivery_address,store_type,demand_kg,required_vehicle
+O01,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam","71 Nguyễn Sơn, Phú Thạnh, Tân Phú, Thành phố Hồ Chí Minh, Vietnam","Coop Food",6,motorcycle
+O02,"168 Nguyễn Đình Chiểu, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam","543/1 Đ. Phan Văn Trị, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","Coop Mart",10,motorcycle
+O03,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam","Tầng trệt cao ốc SCREC, Số 974A TP, 974 Đ. Trường Sa, Phường 12, Quận 3, Thành phố Hồ Chí Minh, Vietnam","CoopMart",10,motorcycle
+O04,"Chung cư Hope Garden, 102 Phan Huy Ích, Phường 15, Tân Bình, Thành phố Hồ Chí Minh, Vietnam","Tầng trệt - block, 4 Phan Chu Trinh, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh 72312, Vietnam","WinMart+",4,motorcycle
+O05,"152 Lê Lợi, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","145 Đ. Vĩnh Viễn, Phường 4, Quận 10, Thành phố Hồ Chí Minh 72517, Vietnam","WinMart+",20,motorcycle
+O06,"121 Nguyễn Văn Đậu, Phường 5, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","162 Đ. Linh Đông, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam","WinMart+",16,pickup_truck
+O07,"54 Đ. Lê Đức Thọ, Phường 15, Gò Vấp, Thành phố Hồ Chí Minh 700000, Vietnam","2 Lê Lợi, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh 71408, Vietnam","Bach Hoa Xanh",12,pickup_truck
+O08,"111 Nguyễn Văn Nghi, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","352 Chu Văn An, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Vietnam","Bach Hoa Xanh",13,pickup_truck
+O09,"62 Nguyễn Văn Nghi, Phường 5, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","138 Nguyễn Xí, Phường 26, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","Bach Hoa Xanh",8,motorcycle
+O10,"184 Đ. Lê Đức Thọ, P.6, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","15C Đ. Nguyễn Thị Minh Khai, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh 700000, Vietnam","Circle K",10,pickup_truck
+O11,"22 Phan Xích Long, Phường 3, Phú Nhuận, Thành phố Hồ Chí Minh, Vietnam","32 Đ. Bùi Thị Xuân, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh, Vietnam","Circle K",14,motorcycle
+O12,"2 Đ. Trần Khắc Chân, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh, Vietnam","69 Nguyễn Khắc Nhu, Phường Cô Giang, Quận 1, Thành phố Hồ Chí Minh, Vietnam","Circle K",15,pickup_truck
+O13,"RMHJ+4P6, Trần Thị Nghỉ, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","15/4 Lương Định Của, An Khánh, Quận 2, Thành phố Hồ Chí Minh, Vietnam","GS25",12,motorcycle
+O14,"2 Đ. Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh, Vietnam","454 Đ. Nguyễn Thị Minh Khai, Phường 5, Quận 3, Thành phố Hồ Chí Minh, Vietnam","GS25",17,pickup_truck
+O15,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam","156/2 Cộng Hoà, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh, Vietnam","B2C",9,motorcycle
+O16,"Số 1 Số 2, Hiệp Bình Phước, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam","136C Đ. Thạnh Xuân 22, Thạnh Xuân, Quận 12, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",7,motorcycle
+O17,"12 Đ. Số 3, Khu Phố 5, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam","45 Bùi Công Trừng, Đông Thạnh, Hóc Môn, Thành phố Hồ Chí Minh, Việt Nam","B2C",16,motorcycle
+O18,"127 Bình Lợi, Phường 13, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","64, 19a Trần Thị Cờ, KP5, Quận 12, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",2,motorcycle
+O19,"134B Nguyễn Thái Sơn, Phường 3, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","488 Kinh A, Lê Minh Xuân, Bình Chánh, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",20,pickup_truck
+O20,"235 Nơ Trang Long, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","51/2 Đ. số 3, Bình An, Quận 2, Thành phố Hồ Chí Minh 70000, Việt Nam","B2C",18,pickup_truck
+O21,"193 Bùi Đình Tuý, Phường 24, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","47 Trần Huy Liệu, Phường 12, Phú Nhuận, Thành phố Hồ Chí Minh, Việt Nam","B2C",17,pickup_truck
+O22,"2a Ung Văn Khiêm, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","141 Đ. Bắc Hải, Phường 14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam","B2C",10,motorcycle
+O23,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam","129 Đ. Tân Sơn, Phường 15, Tân Bình, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",12,motorcycle
+O24,"175 Hoà Bình, Hiệp Tân, Tân Phú, Thành phố Hồ Chí Minh, Vietnam","118/57 Bis Trần Quang Diệu, Phường 14, Quận 3, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",17,motorcycle
+O25,"Tòa nhà Pearl Plaza, 561A Đ. Điện Biên Phủ, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam","10-12-14 Đường số 55, P. Bình Tân, Thành phố Hồ Chí Minh 700000, Việt Nam","B2C",19,pickup_truck
+O26,"Đường số 10, Hiệp Bình Chánh, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh, Vietnam","293 Quách Điêu, Vĩnh Lộc A, Bình Chánh, Thành phố Hồ Chí Minh, Việt Nam","B2C",18,pickup_truck
+O27,"543/1 Đ. Phan Văn Trị, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam","143/26 Liên Khu 4-5, Bình Hưng Hoà B, Bình Tân, Thành phố Hồ Chí Minh, Việt Nam","B2C",10,motorcycle

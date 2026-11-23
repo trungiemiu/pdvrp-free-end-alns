@@ -1,0 +1,128 @@
+﻿Free-End Tail Reassignment in Multi-Objective Adaptive Large Neighborhood Search for Heterogeneous Open Pickup-and-Delivery Routing
+
+
+
+
+Abstract - Open pickup-and-delivery routes have free endpoints that conventional closed-route neighborhoods do not exploit. We study a heterogeneous open pickup-and-delivery vehicle routing problem without time windows, minimizing operating cost, maximum route duration, and within-vehicle-type workload imbalance. We propose a multi-objective adaptive large neighborhood search with zero-load tail removal and tail-only compatible-driver repair. An objective-scope analysis shows that workload imbalance preserves 12.5–71.2% of empirical non-dominated alternatives lost under a two-objective projection. Across 160 paired ablation runs, the complete method improves normalized hypervolume by 2.13% over removing both tail operators and wins 27 of 40 blocks. Exact small-instance certificates and an independent checker validate implementation correctness. In a separate equal-time comparison across ten routing environments, the proposed method achieves the best aggregate hypervolume and significantly outperforms NSGA-II, MOEA/D, and heuristic epsilon-constraint baselines. The method provides an effective optimization tool for intelligent pickup-and-delivery transportation systems.
+Keywords - pickup-and-delivery routing; intelligent transportation systems; multi-objective optimization; adaptive large neighborhood search; logistics optimization; workload equity
+
+INTRODUCTION
+The pickup-and-delivery vehicle routing problem (PDVRP) underlies courier, retail, and on-demand logistics. Every request contains two linked service events: one vehicle must perform both the pickup and delivery, pickup must precede delivery, and vehicle capacity must hold along the route [1]. Practical dispatch adds heterogeneous vehicle compatibility, driver-specific origins, and routes that may end at the last customer rather than return to a depot.
+That last feature changes neighborhood design. In a closed route, moving a suffix changes both its attachment edge and the return edge. In an open route, the terminal edge does not exist. A self-contained suffix cut at a zero-load boundary can therefore be removed and reassigned without paying a return-to-depot penalty. Generic removal and insertion operators can eventually produce such moves, but they do not target this structural opportunity.
+Cost alone is also insufficient for many dispatch settings. A low-cost plan can leave one driver with a long completion time or concentrate work on a few workers. Conversely, balancing routes may require additional travel. We model these concerns by minimizing total operating cost, maximum route duration, and workload imbalance among drivers with the same vehicle capability. An a-posteriori method returns non-dominated alternatives before a dispatcher applies preferences.
+Adaptive large neighborhood search (ALNS) is well suited to paired requests because destroy-repair moves can jointly change request assignment and both visit positions [3]. Multi-objective search additionally requires convergence and diversity [4]. We therefore develop a multi-objective ALNS (MOALNS) with changing augmented Tchebycheff preferences and an external Pareto archive.
+The contributions are:
+1. a three-objective formulation of a heterogeneous open PDVRP with driver-specific starts, vehicle compatibility, capacity, precedence, and workload equity within vehicle type;
+2. a pair of open-route-specific operators--zero-load tail removal and tail-only compatible-driver repair--that explicitly exploit the free route endpoint;
+3. an empirical objective-scope test showing that the equity objective preserves 12.5–71.2% of otherwise lost non-dominated alternatives on the tested fronts;
+4. a reproducible validation chain comprising exact small-instance certificates, an independent route checker, a 160-run paired ablation demonstrating the contribution of each tail component, a 120-run equal-time comparison with NSGA-II, MOEA/D, and epsilon-constraint on ten environments, and time-, parameter-, and decision-weight sensitivity analyses.
+RELATED WORK
+The PDVRP couples request assignment with pickup--delivery precedence and capacity feasibility [1]. Li and Lim introduced widely used PDPTW benchmarks [2], while Ropke and Pisinger established ALNS as a strong solution framework [3]. Our setting removes time windows but adds driver-specific starts, heterogeneous compatibility, open endpoints, and three objectives.
+
+Open VRP studies show that eliminating the depot return changes route structure [10], [11]. We transfer this free-end insight to paired-request suffixes. The broader pickup-and-delivery and ALNS literature supports problem-specific large neighborhoods and explicit operator testing [12], [13], [16]. Multi-objective routing motivates the cost, duration, and equity criteria and the NSGA-II, MOEA/D, and epsilon-constraint comparison [4]--[9].
+Problem Definition
+Network and feasibility
+Let R be the request set, K the driver set, and N={p_r,d_r:r∈R} the service nodes. Request r has demand q_r and required vehicle type v_r. Driver k starts at s_k and has type v_k, capacity Q_k, and per-kilometer cost c_k. Compatibility parameter a_rk equals one when driver k can serve request r; d_ij and τ_ij denote directed distance and travel time.
+
+Binary y_rk assigns request r to driver k, and x_ijk selects arc (i,j) for driver k. The core assignment, compatibility, and visit constraints are
+
+∑_(k∈K)y_rk=1,  y_rk≤a_rk,    r∈R,k∈K,
+
+∑_j x_ijk=∑_j x_jik=y_rk,    i∈{p_r,d_r}.
+
+Each used route leaves s_k once and terminates at an artificial zero-cost sink, so no return arc is charged. Standard position u_ik and load L_ik propagation enforce
+
+u_(p_r k)<u_(d_r k),    0≤L_ik≤Q_k.
+
+Objectives
+
+The multi-objective problem minimizes F=(f_1,f_2,f_3), where
+
+f_1=∑_(k∈K)∑_i∑_(j≠i)c_k d_ij x_ijk,
+
+f_2=max_(k∈K){∑_i∑_j τ_ij x_ijk/60},
+
+f_3=1/|V| ∑_(v∈V) sqrt(1/|K_v| ∑_(k∈K_v)(n_k-n̄_v)^2),    n_k=∑_r y_rk.
+
+Idle compatible drivers remain in K_v, preventing concentrated assignments from appearing balanced. The metaheuristic evaluates all three objectives directly; the PuLP/CBC certificate optimizes the f_1 specialization on small instances.
+Multi-Objective ALNS
+Search control
+The route representation stores paired pickup/delivery events by driver. A regret insertion heuristic constructs an initial solution. At each iteration, a weight vector w is sampled from the three-dimensional simplex. For scale vector g and ρ=0.05, candidate s is evaluated by
+\phi \left(s\mid w\right)=\max_{m=1,2,3}{\left\{w_{m}\frac{f_{m}\left(s\right)}{g_{m}}\right\}}+\rho \sum_{m=1}^{3} w_{m}\frac{f_{m}\left(s\right)}{g_{m}}.
+Changing w exposes different trade-off regions, while augmented Tchebycheff scalarization can reach non-supported portions that a weighted sum can miss.
+The bounded archive retains non-dominated objective vectors. Dominated and duplicate vectors are rejected; crowding control removes a solution from the densest finite-crowding region when size exceeds 100. With probability 0.35, the search restarts an iteration from an archive member. Simulated annealing accepts a scalar worsening Δ with probability \exp{\left[-\Delta /\max{\left(T,{10}^{-9}\right)}\right]}. Temperature starts at 0.05 and cools by 0.995.
+Operators receive reward 10 for an archive addition, 5 for a dominating candidate, and 1 for another accepted move. Every 15 iterations, operator weight {\omega }_{o} is updated as
+{\omega }_{o}\leftarrow \left(1-\lambda \right){\omega }_{o}+\lambda \frac{{\pi }_{o}}{\max{\left(1,{\nu }_{o}\right)}},\quad \quad \lambda =0.25,
+where {\pi }_{o} and {\nu }_{o} are segment reward and usage count.
+Generic destroy and repair
+The generic destroy set contains random removal, marginal-cost worst removal, spatial related-request removal, and route removal. Spatial relatedness uses pickup-to-pickup and delivery-to-delivery distance plus a vehicle-type incompatibility penalty; it is not a full positional Shaw measure. Repair uses greedy, noisy greedy, regret-2, and regret-3 insertion. Every compatible driver and every feasible pickup/delivery position pair is evaluated, including pickup at the current endpoint and delivery at the resulting endpoint. Route evaluation never adds a final-to-depot edge.
+Free-end tail operators
+For route k=\left(s_{k},e_{1},\ldots ,e_{h}\right), let L_{t} denote load immediately after event e_{t}. A cut after e_{t} with L_{t}=0 separates a self-contained suffix: no request picked before the cut can be delivered after it. The tail-removal operator searches internal zero-load boundaries and removes the largest self-contained suffix not exceeding the sampled destroy size. If no such suffix exists, it selects requests with the latest delivery positions and removes both events of each request.
+The tail-repair operator considers only the append pattern \left(s_{k},e_{1},\ldots ,e_{h},p_{r},d_{r}\right)\ over compatible drivers. Its incremental route cost contains the edge from e_{h} to p_{r} and from p_{r} to d_{r}, but no return edge. It directly tests whether a removed request or suffix is better assigned after another driver's free endpoint. Strict compatibility means reassignment occurs among compatible drivers, not arbitrarily across vehicle classes.
+The pair is structurally motivated: tail removal exposes a large assignment move at a capacity-safe cut, while tail repair cheaply explores alternate free endpoints. The full search contains five destroy and five repair operators.
+Decision Support
+TOPSIS and PROMETHEE II rank feasible archive members using decision-maker-specified cost, duration, and workload-equity weights [14], [15]. TOPSIS is a compensatory distance-to-ideal method, whereas PROMETHEE II uses pairwise outranking. Neither method changes the routes.
+Experimental Design
+Instances and protocol
+The Current instance contains 27 requests and nine drivers (six motorcycles and three pickup trucks), driver-specific origins, and directed OSRM road distances and durations. Three ablation instances retain 12 requests from the clustered LC101, random LR101, and mixed LRC101 Li-Lim families [2]. The broader comparison uses nine 25-request derivatives: LC102, LC105, LC201, LR102, LR105, LR201, LRC102, LRC105, and LRC201. In every derivative, time windows and service times are removed and four homogeneous vehicles are supplied. These are controlled no-time-window derivatives, not results on the original PDPTW benchmarks.
+The ablation compares the full method with removal of tail destroy, tail repair, and both. Each configuration uses seeds 42-51, 5,000 maximum iterations, and 600 seconds per instance-seed run. This gives 4×4×10=160 runs. All configurations share initialization, scalarization, generic operators, acceptance, adaptation, and archive settings. 
+For normalized hypervolume (HV), all relevant archives in an instance-seed block use common componentwise bounds and reference point ,1.1,1.1,1.1.; higher is better [8]. We also report archive size, spacing, and contribution to the empirical union front. Paired differences use two-sided Wilcoxon signed-rank tests with Holm correction over the three predeclared tail ablations.
+Implementation validation
+Validation is deliberately independent of the solver's feasibility functions. The checker deserializes raw routes and separately verifies coverage, duplicate events, same-driver pairing, precedence, compatibility, capacity, open-route distance, duration, and all three reported objectives.
+A PuLP/CBC arc-flow model supplies exact cost certificates on three four-request instances. These small cases test formulation and implementation; they are not evidence of large-instance performance.
+External comparison
+The production benchmark compares tail-enabled MOALNS with route-based NSGA-II, MOEA/D, and heuristic epsilon-constraint. All methods use the same route representation, feasibility evaluator, objective functions, initial construction, and wall-clock limit. NSGA-II applies non-dominated sorting, crowding distance, route inheritance, and destroy-repair mutation with a population of 50. MOEA/D uses 50 simplex weights, five-neighbor scalar subproblems, route crossover, and destroy-repair mutation. Epsilon-constraint minimizes cost while bounding duration and imbalance on a 5×5 grid; it is a heuristic baseline rather than exact AUGMECON.
+The external comparison uses the Current instance and nine 25-request derivatives, seeds 42-44, and an equal 180-second wall-clock limit: 10×3×4=120 runs. Fixed per-instance normalization bounds are pooled across every algorithm and seed. We report normalized HV, spacing, archive size, empirical coverage, and contribution to the instance-seed union front.
+The omnibus comparison uses a Friedman test over 30 paired instance-seed blocks. Because repeated seeds from one instance are not independent routing environments, the primary confirmatory analysis first averages seeds within each instance and applies a Friedman test to ten independent instance means. Six pairwise Wilcoxon tests on these means use Holm correction. Block-level tests are retained as supporting stochastic-run analyses.
+Sensitivity and decision analysis
+Time-budget sensitivity uses the three 12-request derivatives, seeds 42-44, and limits of 60, 180, and 600 seconds. One-factor-at-a-time parameter sensitivity evaluates the baseline and 17 alternatives on the same three instances and seeds under 120-second limits, giving 162 runs. The factors are destroy size, archive size, archive-parent probability, reaction factor, cooling, initial temperature, adaptation-segment length, and augmented Tchebycheff parameter ρ.
+Finally, TOPSIS and PROMETHEE II are applied to the feasible Current-instance archive over 231 simplex-grid weight vectors. We report selection agreement, the number of distinct selected plans, and the objective ranges induced by preference changes. This layer ranks existing routes only; it does not enter algorithm-performance testing.
+Results
+Does the third objective add information?
+For each instance, all unique archive vectors are filtered in three dimensions and then projected onto cost-maximum-duration. A vector that becomes dominated after projection was non-dominated only because of workload imbalance. Across the tested environments, 12.5–71.2% of the three-objective front is lost under the two-objective projection. At least one point is lost in every instance. Imbalance therefore adds information throughout the test set, although its contribution is much stronger on Current and the LC and LRC105 derivatives than on LRC102 and LRC201.
+
+
+Spearman coefficients on Pareto points are descriptive rather than population-level tests because front points are dependent. Cost-duration correlations range from -0.527 to -0.992 on the all-algorithm fronts, while cost-imbalance correlations range from -0.911 to -1.000. Strong correlation does not make an objective redundant: the projection test directly counts vectors whose status depends on imbalance and is consequently the primary objective-scope evidence.
+Exact and independent validation
+CBC proved cost optimality on three four-request instances, and both ALNS and the minimum-cost MOALNS archive member attained zero gap. The independent checker verified all 3,584 ablation and 933 production archive solutions without a feasibility or objective mismatch.
+Tail-operator ablation
+
+TABLE I. TAIL-OPERATOR ABLATION OVER 40 PAIRED INSTANCE-SEED BLOCKS.ConfigurationFull MOALNSNo tail repairNo tail removalNo tail operatorsMean ΔHV0.679360.672670.669280.66522Archive26.2521.921.5519.9Mean ΔHV---0.0067-0.01008-0.01414W-T-L--7-9-246-10-244-9-27Holm p--0.0029760.0007121.96×10^-4Removing both tail operators reduces mean HV by 0.01414; equivalently, the full method improves the mean of HV by 2.13% relative to the joint ablation. Mean archive size increases from 19.90 to 26.25 (31.9%), and empirical union-front contribution increases from 408 to 712 (74.5%). The full method wins 27 blocks, ties nine, and loses four. The adjusted test is significant.
+Both components matter independently. Removing tail removal produces the larger mean loss, while removing tail repair also causes a significant decrease. The joint loss is smaller than the sum of individual losses, which is consistent with partial overlap: generic operators can occasionally reproduce a tail move, but not with the same search frequency.
+
+The benefit is instance dependent. The largest absolute gain over the joint ablation is on Current (0.04337 HV), followed by LC101-12 (0.00744) and LR101-12 (0.00566). LRC101-12 is nearly invariant across configurations and contributes little discrimination. This pattern supports the structural argument: tail reassignment is most useful when heterogeneous assignments and driver-specific starts create meaningful endpoint choices.
+External algorithm comparison
+In the broader benchmark, MOALNS has the highest mean HV on nine of ten instances; NSGA-II leads on LRC201-25. Relative standard deviations are large on several derivatives because only three seeds are available, so inference is based on paired instance means rather than on the aggregate mean alone.
+
+Aggregating the 30 paired blocks, MOALNS obtains the highest mean HV (0.4233), best mean rank (1.8000), most first-place results (17), largest mean archive (8.83), and largest empirical union-front contribution (185).
+NSGA-II has the smallest spacing, illustrating why spacing alone is not a convergence measure: its mean HV is the lowest.
+
+TABLE II. AGGREGATE PERFORMANCE ACROSS 30 INSTANCE-SEED BLOCKS.MethodMean HVHV rankWinsArchiveUnionMOALNS.42331.8000178.83185MOEA/D.20432.700036.3067NSGA-II.18563.166737.7774Epsilon.23552.333378.20100The Friedman test on the ten independent instance means rejects equal performance ({\chi }^{2}=15.48, p=0.00145). At the instance level, MOALNS exceeds MOEA/D on all ten instances and exceeds NSGA-II and epsilon-constraint on nine. All three comparisons remain significant after Holm correction. The supporting block-level analysis reaches the same conclusion ({\chi }^{2}=18.04, p=4.32\times {10}^{-4}); adjusted pairwise p-values are 2.20\times {10}^{-4}, 5.53\times {10}^{-5}, and 0.01195, respectively.
+Coverage supports the same interpretation. On average, MOALNS dominates 35.0% of MOEA/D, 37.7% of NSGA-II, and 33.5% of epsilon archive members.
+The reverse coverages are 21.4%, 16.9%, and 18.9%, respectively. These nonzero reverse values prevent a claim of universal dominance.
+Mean runtimes are 180.024, 180.045, 180.037, and 180.040 seconds for MOALNS, MOEA/D, NSGA-II, and epsilon-constraint. The independent checker recomputes all constraints and objectives for 933 production archive members; all 933 pass.
+Sensitivity and decision support
+Mean HV rises from 0.6700 at 60 s to 0.7373 at 180 s and 0.7525 at 600 s; both shorter budgets differ from 600 s after Holm correction (p=0.00781). None of 17 parameter variants differs significantly from the baseline after correction, although removing Tchebycheff augmentation yields the largest mean loss. Across 231 weight vectors, TOPSIS and PROMETHEE II agree on 41.1% of selections and choose 16 and 10 distinct plans, respectively, confirming that deployment is preference dependent.
+CONCLUSION AND LIMITATIONS
+This study introduces free-end tail removal and tail-only repair for a three-objective heterogeneous open PDVRP. Workload imbalance preserves 12.5--71.2% of empirical alternatives lost under a cost--duration projection, while paired ablation confirms that the tail operators improve hypervolume and archive diversity. MOALNS achieves the best aggregate HV in the equal-time comparison and significantly outperforms all three baselines on independent instance means. Limitations include three production seeds, nine time-window-free derivatives, one heterogeneous road-network instance, and shared implementation components across algorithms. Future work should evaluate larger independent benchmarks, alternative equity measures, and dynamic travel conditions.
+References
+[1] M. W. P. Savelsbergh and M. Sol, “The general pickup and delivery problem,” Transportation Science, vol. 29, no. 1, pp. 17–29, 1995, doi: 10.1287/trsc.29.1.17.
+[2] H. Li and A. Lim, “A metaheuristic for the pickup and delivery problem with time windows,” International Journal on Artificial Intelligence Tools, vol. 12, no. 2, pp. 173–186, 2003, doi: 10.1142/S0218213003001186.
+[3] S. Ropke and D. Pisinger, “An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows,” Transportation Science, vol. 40, no. 4, pp. 455–472, 2006, doi: 10.1287/trsc.1050.0135.
+[4] N. Jozefowiez, F. Semet, and E.-G. Talbi, “Multi-objective vehicle routing problems,” European Journal of Operational Research, vol. 189, no. 2, pp. 293–309, 2008, doi: 10.1016/j.ejor.2007.05.055.
+[5] K. Deb, A. Pratap, S. Agarwal, and T. Meyarivan, “A fast and elitist multiobjective genetic algorithm: NSGA-II,” IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182–197, 2002, doi: 10.1109/4235.996017.
+[6] Q. Zhang and H. Li, “MOEA/D: A multiobjective evolutionary algorithm based on decomposition,” IEEE Transactions on Evolutionary Computation, vol. 11, no. 6, pp. 712–731, 2007, doi: 10.1109/TEVC.2007.892759.
+[7] G. Mavrotas, “Effective implementation of the epsilon-constraint method in multi-objective mathematical programming problems,” Applied Mathematics and Computation, vol. 213, no. 2, pp. 455–465, 2009, doi: 10.1016/j.amc.2009.03.037.
+[8] E. Zitzler and L. Thiele, “Multiobjective evolutionary algorithms: A comparative case study and the strength Pareto approach,” IEEE Transactions on Evolutionary Computation, vol. 3, no. 4, pp. 257–271, 1999, doi: 10.1109/4235.797969.
+[9] P. Matl, R. F. Hartl, and T. Vidal, “Workload equity in vehicle routing problems: A survey and analysis,” Transportation Science, vol. 52, no. 2, pp. 239–260, 2018, doi: 10.1287/trsc.2017.0744.
+[10] D. Sariklis and S. Powell, “A heuristic method for the open vehicle routing problem,” Journal of the Operational Research Society, vol. 51, no. 5, pp. 564–573, 2000, doi: 10.2307/254187.
+[11] J. Brandão, “A tabu search algorithm for the open vehicle routing problem,” European Journal of Operational Research, vol. 157, no. 3, pp. 552–564, 2004, doi: 10.1016/S0377-2217(03)00238-8.
+[12] D. Pisinger and S. Røpke, “A general heuristic for vehicle routing problems,” Computers & Operations Research, vol. 34, no. 8, pp. 2403–2435, 2007, doi: 10.1016/j.cor.2005.09.012.
+[13] S. N. Parragh, K. F. Doerner, and R. F. Hartl, “A survey on pickup and delivery problems. Part II: Transportation between pickup and delivery locations,” Journal für Betriebswirtschaft, vol. 58, no. 2, pp. 81–117, 2008, doi: 10.1007/s11301-008-0036-4.
+[14] C.-L. Hwang and K. Yoon, Multiple Attribute Decision Making: Methods and Applications—A State-of-the-Art Survey, Lecture Notes in Economics and Mathematical Systems, vol. 186. Berlin, Germany: Springer, 1981, doi: 10.1007/978-3-642-48318-9.
+[15] J.-P. Brans and P. Vincke, “Note—A preference ranking organisation method,” Management Science, vol. 31, no. 6, pp. 647–656, 1985, doi: 10.1287/mnsc.31.6.647.
+[16] S. Voigt, “A review and ranking of operators in adaptive large neighborhood search for vehicle routing problems,” European Journal of Operational Research, vol. 322, no. 2, pp. 357–375, 2025, doi: 10.1016/j.ejor.2024.05.033.
+
+
+XXX-X-XXXX-XXXX-X/XX/$XX.00 ©20XX IEEE
+

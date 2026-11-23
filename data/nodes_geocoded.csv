@@ -1,0 +1,64 @@
+﻿node_id,node_type,related_id,address,lat,lon
+D01_START,driver_start,D01,Start location of D01,10.801031,106.721109
+D02_START,driver_start,D02,Start location of D02,10.854746,106.705692
+D03_START,driver_start,D03,Start location of D03,10.754286,106.6626
+D04_START,driver_start,D04,Start location of D04,10.853004,106.753698
+D05_START,driver_start,D05,Start location of D05,10.791675,106.676091
+D06_START,driver_start,D06,Start location of D06,10.850478,106.747421
+D07_START,driver_start,D07,Start location of D07,10.854536,106.758383
+D08_START,driver_start,D08,Start location of D08,10.778117,106.689128
+D09_START,driver_start,D09,Start location of D09,10.735431,106.692488
+P01,pickup,O01,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam",10.87706455,106.641154
+L01,delivery,O01,"71 Nguyễn Sơn, Phú Thạnh, Tân Phú, Thành phố Hồ Chí Minh, Vietnam",10.78177591,106.6303413
+P02,pickup,O02,"168 Nguyễn Đình Chiểu, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Vietnam",10.7814392,106.6923652
+L02,delivery,O02,"543/1 Đ. Phan Văn Trị, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.83011501,106.6822526
+P03,pickup,O03,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam",10.77146405,106.6538739
+L03,delivery,O03,"Tầng trệt cao ốc SCREC, Số 974A TP, 974 Đ. Trường Sa, Phường 12, Quận 3, Thành phố Hồ Chí Minh, Vietnam",10.78660231,106.6755617
+P04,pickup,O04,"Chung cư Hope Garden, 102 Phan Huy Ích, Phường 15, Tân Bình, Thành phố Hồ Chí Minh, Vietnam",10.82875259,106.6339512
+L04,delivery,O04,"Tầng trệt - block, 4 Phan Chu Trinh, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh 72312, Vietnam",10.81634578,106.7016846
+P05,pickup,O05,"152 Lê Lợi, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.7725299,106.6995371
+L05,delivery,O05,"145 Đ. Vĩnh Viễn, Phường 4, Quận 10, Thành phố Hồ Chí Minh 72517, Vietnam",10.76583499,106.6708856
+P06,pickup,O06,"121 Nguyễn Văn Đậu, Phường 5, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.8079576,106.6878611
+L06,delivery,O06,"162 Đ. Linh Đông, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam",10.85315345,106.7486984
+P07,pickup,O07,"54 Đ. Lê Đức Thọ, Phường 15, Gò Vấp, Thành phố Hồ Chí Minh 700000, Vietnam",10.83303,106.6825055
+L07,delivery,O07,"2 Lê Lợi, Phường 4, Gò Vấp, Thành phố Hồ Chí Minh 71408, Vietnam",10.82191983,106.6884241
+P08,pickup,O08,"111 Nguyễn Văn Nghi, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.82479111,106.6857466
+L08,delivery,O08,"352 Chu Văn An, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Vietnam",10.8116638,106.6982832
+P09,pickup,O09,"62 Nguyễn Văn Nghi, Phường 5, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.82636589,106.6814686
+L09,delivery,O09,"138 Nguyễn Xí, Phường 26, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.8140569,106.708903
+P10,pickup,O10,"184 Đ. Lê Đức Thọ, P.6, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.8375549,106.680598
+L10,delivery,O10,"15C Đ. Nguyễn Thị Minh Khai, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh 700000, Vietnam",10.78594496,106.7011153
+P11,pickup,O11,"22 Phan Xích Long, Phường 3, Phú Nhuận, Thành phố Hồ Chí Minh, Vietnam",10.7973124,106.693416
+L11,delivery,O11,"32 Đ. Bùi Thị Xuân, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh, Vietnam",10.77233567,106.6903966
+P12,pickup,O12,"2 Đ. Trần Khắc Chân, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh, Vietnam",10.79227362,106.6914197
+L12,delivery,O12,"69 Nguyễn Khắc Nhu, Phường Cô Giang, Quận 1, Thành phố Hồ Chí Minh, Vietnam",10.7634159,106.6932441
+P13,pickup,O13,"RMHJ+4P6, Trần Thị Nghỉ, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.82785571,106.6817948
+L13,delivery,O13,"15/4 Lương Định Của, An Khánh, Quận 2, Thành phố Hồ Chí Minh, Vietnam",10.7919953,106.7501149
+P14,pickup,O14,"2 Đ. Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh, Vietnam",10.7714504,106.6950115
+L14,delivery,O14,"454 Đ. Nguyễn Thị Minh Khai, Phường 5, Quận 3, Thành phố Hồ Chí Minh, Vietnam",10.7723158,106.688249
+P15,pickup,O15,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam",10.87706455,106.641154
+L15,delivery,O15,"156/2 Cộng Hoà, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh, Vietnam",10.80198949,106.6516737
+P16,pickup,O16,"Số 1 Số 2, Hiệp Bình Phước, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam",10.8472249,106.7231871
+L16,delivery,O16,"136C Đ. Thạnh Xuân 22, Thạnh Xuân, Quận 12, Thành phố Hồ Chí Minh 700000, Việt Nam",10.8716015,106.6700218
+P17,pickup,O17,"12 Đ. Số 3, Khu Phố 5, Thủ Đức, Thành phố Hồ Chí Minh, Vietnam",10.83484301,106.7642415
+L17,delivery,O17,"45 Bùi Công Trừng, Đông Thạnh, Hóc Môn, Thành phố Hồ Chí Minh, Việt Nam",10.9079409,106.6528989
+P18,pickup,O18,"127 Bình Lợi, Phường 13, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.83119752,106.70536
+L18,delivery,O18,"64, 19a Trần Thị Cờ, KP5, Quận 12, Thành phố Hồ Chí Minh 700000, Việt Nam",10.87561692,106.6528912
+P19,pickup,O19,"134B Nguyễn Thái Sơn, Phường 3, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.81886275,106.6821116
+L19,delivery,O19,"488 Kinh A, Lê Minh Xuân, Bình Chánh, Thành phố Hồ Chí Minh 700000, Việt Nam",10.76596241,106.5252211
+P20,pickup,O20,"235 Nơ Trang Long, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.8169893,106.6976885
+L20,delivery,O20,"51/2 Đ. số 3, Bình An, Quận 2, Thành phố Hồ Chí Minh 70000, Việt Nam",10.79573482,106.7349231
+P21,pickup,O21,"193 Bùi Đình Tuý, Phường 24, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.8083023,106.7086314
+L21,delivery,O21,"47 Trần Huy Liệu, Phường 12, Phú Nhuận, Thành phố Hồ Chí Minh, Việt Nam",10.7914565,106.6780395
+P22,pickup,O22,"2a Ung Văn Khiêm, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.8082192,106.7149661
+L22,delivery,O22,"141 Đ. Bắc Hải, Phường 14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam",10.7790477,106.65735
+P23,pickup,O23,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam",10.77089267,106.6540297
+L23,delivery,O23,"129 Đ. Tân Sơn, Phường 15, Tân Bình, Thành phố Hồ Chí Minh 700000, Việt Nam",10.82068946,106.639003
+P24,pickup,O24,"175 Hoà Bình, Hiệp Tân, Tân Phú, Thành phố Hồ Chí Minh, Vietnam",10.7703005,106.629237
+L24,delivery,O24,"118/57 Bis Trần Quang Diệu, Phường 14, Quận 3, Thành phố Hồ Chí Minh 700000, Việt Nam",10.79053808,106.6792598
+P25,pickup,O25,"Tòa nhà Pearl Plaza, 561A Đ. Điện Biên Phủ, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",10.80009676,106.7184697
+L25,delivery,O25,"10-12-14 Đường số 55, P. Bình Tân, Thành phố Hồ Chí Minh 700000, Việt Nam",10.75738687,106.5996825
+P26,pickup,O26,"Đường số 10, Hiệp Bình Chánh, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh, Vietnam",10.83021647,106.728519
+L26,delivery,O26,"293 Quách Điêu, Vĩnh Lộc A, Bình Chánh, Thành phố Hồ Chí Minh, Việt Nam",10.8165227,106.5767852
+P27,pickup,O27,"543/1 Đ. Phan Văn Trị, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",10.8295261,106.6820675
+L27,delivery,O27,"143/26 Liên Khu 4-5, Bình Hưng Hoà B, Bình Tân, Thành phố Hồ Chí Minh, Việt Nam",10.7981929,106.5920562

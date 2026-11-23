@@ -1,0 +1,13 @@
+order_id,pickup_address,delivery_address,store_type,demand_kg,required_vehicle
+O01,benchmark_node_2,benchmark_node_73,LiLim,7.0,benchmark_vehicle
+O02,benchmark_node_5,benchmark_node_85,LiLim,26.0,benchmark_vehicle
+O03,benchmark_node_8,benchmark_node_17,LiLim,9.0,benchmark_vehicle
+O04,benchmark_node_11,benchmark_node_20,LiLim,12.0,benchmark_vehicle
+O05,benchmark_node_14,benchmark_node_38,LiLim,20.0,benchmark_vehicle
+O06,benchmark_node_15,benchmark_node_97,LiLim,8.0,benchmark_vehicle
+O07,benchmark_node_16,benchmark_node_91,LiLim,19.0,benchmark_vehicle
+O08,benchmark_node_18,benchmark_node_89,LiLim,12.0,benchmark_vehicle
+O09,benchmark_node_21,benchmark_node_41,LiLim,11.0,benchmark_vehicle
+O10,benchmark_node_23,benchmark_node_104,LiLim,29.0,benchmark_vehicle
+O11,benchmark_node_24,benchmark_node_80,LiLim,3.0,benchmark_vehicle
+O12,benchmark_node_27,benchmark_node_79,LiLim,16.0,benchmark_vehicle

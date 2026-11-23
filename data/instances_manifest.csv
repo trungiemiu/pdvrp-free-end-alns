@@ -1,0 +1,5 @@
+instance_id,data_dir
+current,data
+lc101_notw_subset12,data/instances/lc101_notw_subset12
+lr101_notw_subset12,data/instances/lr101_notw_subset12
+lrc101_notw_subset12,data/instances/lrc101_notw_subset12

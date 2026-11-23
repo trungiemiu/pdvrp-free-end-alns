@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-05-14T17:35:48",
+  "source": "OSRM Table API",
+  "endpoint": "https://router.project-osrm.org",
+  "profile": "driving",
+  "nodes_path": "D:\\Project\\COMOS 2026\\PD VRP\\data\\nodes_geocoded.csv",
+  "node_count": 63,
+  "distance_output": "D:\\Project\\COMOS 2026\\PD VRP\\data\\distance_matrix_osrm.csv",
+  "duration_output": "D:\\Project\\COMOS 2026\\PD VRP\\data\\duration_matrix_osrm_seconds.csv",
+  "distance_unit": "km",
+  "duration_unit": "seconds",
+  "fallback_haversine_speed_kmh": null,
+  "notes": [
+    "Distances and durations are road-network estimates from OpenStreetMap via OSRM.",
+    "The public OSRM demo server is for fair-use testing; use self-hosted OSRM for reproducible production runs."
+  ]
+}

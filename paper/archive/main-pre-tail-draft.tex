@@ -1,0 +1,354 @@
+% ARCHIVED: Numerical results below predate the tail-enabled production rerun.
+% Archived structural draft from before the tail-enabled conference production run.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{siunitx}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\graphicspath{{../outputs/paper/figures/}}
+\sisetup{group-separator={,},group-minimum-digits=4}
+\newcommand{\MOALNS}{MOALNS}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\V}{\mathcal{V}}
+
+\title{Balancing Cost, Route Duration, and Workload Equity in Heterogeneous Open Pickup-and-Delivery Routing: A Multi-Objective Adaptive Large Neighborhood Search}
+\author{First Author\thanks{Replace the placeholder names, affiliations, and e-mail before submission.} \and Second Author\\
+Institution\\
+\texttt{corresponding.author@example.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Pickup-and-delivery operations must often control operating cost while limiting the longest driver route and distributing work fairly across a heterogeneous fleet. These criteria conflict, and reducing them to one fixed weighted sum can conceal operationally useful alternatives. This paper studies a three-objective, heterogeneous, open pickup-and-delivery vehicle routing problem without time windows. Every request has a paired pickup and delivery, a demand, and a required vehicle type; drivers have individual starting locations and are not required to return to a depot. We minimize total travel cost, maximum route duration, and the mean within-vehicle-type standard deviation of assigned request counts. We propose a multi-objective adaptive large neighborhood search (\MOALNS{}) that combines randomized augmented Tchebycheff scalarizations, adaptive destroy and repair operators, simulated-annealing acceptance, and a bounded non-dominated archive. The method is compared with route-based implementations of NSGA-II, MOEA/D, and a heuristic epsilon-constraint procedure under identical feasibility rules and wall-clock budgets. Across 160 runs on one heterogeneous road-network instance and three time-window-free Li--Lim-derived development instances, \MOALNS{} achieves the largest mean normalized hypervolume (0.7829), the best mean rank (1.5125), and 21 wins in 40 paired instance--seed blocks. A Friedman test detects an overall difference, and Holm-adjusted Wilcoxon tests favor \MOALNS{} over all baselines. The results demonstrate the value of archive-guided adaptive search on the present test set, while also showing that broader claims require experiments on full-size independent benchmarks.
+\end{abstract}
+
+\noindent\textbf{Keywords:} pickup and delivery; multi-objective vehicle routing; adaptive large neighborhood search; workload equity; heterogeneous fleet; open routes
+
+\section{Introduction}
+
+Pickup-and-delivery routing is central to courier services, retail distribution, and on-demand logistics. Unlike a classical delivery-only vehicle routing problem, every request contains two linked service events: the same vehicle must visit the pickup before the delivery, while respecting vehicle capacity throughout the route \cite{savelsbergh1995general}. Real dispatch systems introduce further structure. Drivers may begin at different locations, some requests may require a particular vehicle class, and a route may end at its final delivery rather than return to a depot.
+
+Cost is important but rarely sufficient as the only criterion. A cost-minimal plan can create one long route that delays completion, or repeatedly overload a subset of workers. Conversely, minimizing the longest route can activate more vehicles and increase total distance. Workload equity adds a third conflict: equal request counts may require longer travel and should only be compared among drivers capable of serving the same request class. Such trade-offs motivate an a posteriori multi-objective approach that generates a set of non-dominated plans before a dispatcher selects one.
+
+Adaptive large neighborhood search (ALNS) is effective for pickup-and-delivery problems because it removes several requests and reinserts them jointly, permitting moves that are difficult to reach through small local changes \cite{ropke2006alns}. Multi-objective routing, however, also requires convergence toward the Pareto front and diversity along it \cite{jozefowiez2008multi}. We therefore augment ALNS with randomized scalarization, archive-based parent sampling, and crowding-based archive control.
+
+The contributions of this work are fourfold:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item We formulate a heterogeneous open pickup-and-delivery problem without time windows using three operational objectives: travel cost, maximum route duration, and within-vehicle-type workload inequity.
+    \item We propose \MOALNS{}, which combines feasibility-preserving destroy--repair moves, adaptive operator selection, randomized augmented Tchebycheff search, simulated annealing, and a bounded Pareto archive.
+    \item We implement route-based NSGA-II, MOEA/D, and heuristic epsilon-constraint baselines using the same representation, evaluator, operators, and wall-clock budget, reducing confounding due to feasibility handling.
+    \item We report a reproducible 160-run evaluation with hypervolume, spacing, empirical coverage, union-front contribution, paired non-parametric tests, and a practical analysis of the heterogeneous road-network instance.
+\end{enumerate}
+
+The remainder of the paper reviews related work, defines the problem, describes the algorithms, presents the experimental design and results, and discusses deployment and limitations.
+
+\section{Related Work}
+
+Savelsbergh and Sol \cite{savelsbergh1995general} provide a general characterization of pickup-and-delivery problems and the constraints that distinguish them from standard routing. Li and Lim \cite{li2003metaheuristic} introduced widely used PDPTW instances and a tabu-embedded simulated annealing approach. Ropke and Pisinger \cite{ropke2006alns} later established ALNS as a strong framework for the pickup-and-delivery problem with time windows by learning which removal and insertion operators are useful during a run. Our setting removes time windows but adds heterogeneous vehicle compatibility, driver-specific starts, open routes, and three simultaneous objectives.
+
+Multi-objective vehicle routing has considered combinations of cost, fleet size, service quality, route balance, and environmental measures; Jozefowiez et al. \cite{jozefowiez2008multi} survey this literature. NSGA-II uses non-dominated sorting and crowding distance to retain an elitist and diverse population \cite{deb2002nsga2}. MOEA/D decomposes a multi-objective problem into neighboring scalar subproblems \cite{zhang2007moead}. The epsilon-constraint family optimizes one objective while bounding the others; augmented variants are designed to reduce weakly efficient solutions and redundant computations \cite{mavrotas2009epsilon}. These three paradigms provide complementary baselines for a Pareto ALNS.
+
+Equity deserves careful modeling. Matl et al. \cite{matl2018equity} show that workload resources and equity functions materially change the interpretation of a balanced routing solution. Here workload is the number of assigned requests, and dispersion is evaluated separately within each vehicle class so that a motorcycle driver is not compared directly with a pickup-truck driver facing a different compatible request set. Idle eligible drivers are included: otherwise, assigning all work to one driver could appear artificially balanced among only the used drivers.
+
+\section{Problem Definition}
+
+\subsection{Network, requests, and drivers}
+
+Let $\R$ be the set of pickup-and-delivery requests and $\K$ the set of drivers. Request $r\in\R$ has pickup node $p_r$, delivery node $d_r$, demand $q_r$, and required vehicle type $v_r$. Driver $k\in\K$ starts at node $s_k$, operates vehicle type $v_k$ with capacity $Q_k$, and incurs cost $c_k$ per kilometer. Let $a_{rk}=1$ when $v_r=v_k$ and $q_r\le Q_k$, and zero otherwise. Distances $d_{ij}$ and travel times $\tau_{ij}$ can be asymmetric road-network values. Each driver follows an open path beginning at $s_k$; no return to $s_k$ is required.
+
+A solution is a set of driver-indexed event sequences. Each event is a pickup or delivery of a request. Feasibility requires: (i) every request occurs exactly once; (ii) both events of a request are on the same compatible driver's route; (iii) pickup precedes delivery; and (iv) the cumulative load remains in $[0,Q_k]$.
+
+For completeness, an arc-flow representation uses $x_{ijk}\in\{0,1\}$ for travel by driver $k$ on arc $(i,j)$ and $y_{rk}\in\{0,1\}$ for request assignment. Artificial zero-cost end nodes permit open routes. Core constraints include
+\begin{align}
+  &\sum_{k\in\K}y_{rk}=1 &&\forall r\in\R, \\
+  &y_{rk}\le a_{rk} &&\forall r\in\R,\ k\in\K, \\
+  &\sum_j x_{p_rjk}=\sum_i x_{ip_rk}=y_{rk} &&\forall r,k, \\
+  &\sum_j x_{d_rjk}=\sum_i x_{id_rk}=y_{rk} &&\forall r,k.
+\end{align}
+Sequence variables enforce $u_{p_rk}+1\le u_{d_rk}+M(1-y_{rk})$, while standard load propagation constraints apply $+q_r$ at $p_r$ and $-q_r$ at $d_r$. Driver-specific source and artificial sink constraints produce one open path for every used driver.
+
+\subsection{Objectives}
+
+All three objectives are minimized. Total operating cost is
+\begin{equation}
+ f_1(x)=\sum_{k\in\K}\sum_{i}\sum_{j\ne i} c_k d_{ij}x_{ijk}.
+\end{equation}
+In the application data, vehicle compatibility fixes the revenue associated with serving each mandatory request. Total revenue is therefore constant over feasible solutions, making cost minimization equivalent to profit maximization.
+
+Let $T_k=\sum_{i,j}\tau_{ij}x_{ijk}/60$ be route travel time in minutes. The second objective controls the completion bottleneck:
+\begin{equation}
+ f_2(x)=\max_{k\in\K} T_k.
+\end{equation}
+
+Let $n_k=\sum_r y_{rk}$ be the number of requests assigned to driver $k$, $\K_v=\{k:v_k=v\}$, and $\bar n_v=|\K_v|^{-1}\sum_{k\in\K_v}n_k$. The equity loss is
+\begin{equation}
+ f_3(y)=\frac{1}{|\V|}\sum_{v\in\V}
+ \sqrt{\frac{1}{|\K_v|}\sum_{k\in\K_v}(n_k-\bar n_v)^2}.
+\end{equation}
+This definition includes compatible drivers receiving zero requests. It measures allocation equity, not equal route difficulty; alternative workload resources are discussed in Section~\ref{sec:limitations}.
+
+A solution is Pareto optimal if no feasible solution is no worse in all objectives and strictly better in at least one.
+
+\section{Proposed Multi-Objective ALNS}
+
+\subsection{Representation and initialization}
+
+The search directly stores a sequence of paired pickup/delivery events for each driver. The representation omits depot-return arcs and makes precedence and capacity checks explicit during insertion. A constructive regret insertion heuristic builds the initial feasible solution. Objective scales are set to the componentwise maximum of the initial objective vector and $(1,1,1)$, preventing the monetary objective from numerically overwhelming duration and equity.
+
+\subsection{Randomized augmented Tchebycheff search}
+
+At each iteration, a weight vector $w$ is sampled uniformly from the three-dimensional simplex by normalizing independent exponential draws. For objective vector $f(s)$ and fixed positive scale vector $g$, the scalar value is
+\begin{equation}
+ \phi(s\mid w)=\max_{m\in\{1,2,3\}}\left\{w_m\frac{f_m(s)}{g_m}\right\}
+ +\rho\sum_{m=1}^{3}w_m\frac{f_m(s)}{g_m},
+ \qquad \rho=0.05.
+\end{equation}
+Changing $w$ exposes the search to different trade-off regions. The augmented Tchebycheff form is preferred to a pure weighted sum because it can reach supported and non-supported regions of a non-convex front.
+
+\subsection{Destroy and repair operators}
+
+An iteration removes a uniformly sampled number of requests between two and seven, capped by instance size. Four destroy operators are available:
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+    \item \emph{random removal}, for broad diversification;
+    \item \emph{worst-cost removal}, targeting requests with large marginal travel cost;
+    \item \emph{related removal}, jointly removing structurally similar requests;
+    \item \emph{route removal}, emptying part or all of a selected route to alter assignment structure.
+\end{itemize}
+The partial solution is rebuilt by greedy, noisy greedy, regret-2, or regret-3 repair. Every compatible driver and all feasible pickup/delivery insertion-position pairs are evaluated. Insertion scores use the current augmented Tchebycheff function. Regret-$q$ prioritizes a request whose best feasible insertion would be most costly to postpone relative to its next $q-1$ alternatives. This is important when capacity or vehicle compatibility leaves only a few viable placements.
+
+\subsection{Archive, acceptance, and adaptation}
+
+Every feasible candidate is offered to a bounded archive. Dominated and duplicate objective vectors are rejected; accepted candidates remove any archive members they dominate. If the archive exceeds 100 solutions, the finite-crowding solution in the densest region is deleted, while boundary solutions are preserved. With probability 0.35, the next iteration starts from a uniformly selected archive member instead of the current solution. This reconnects search regions that a single trajectory may leave behind.
+
+A candidate that dominates the current solution or improves the current scalarization is accepted. A worsening candidate with scalar increase $\Delta$ is accepted with probability
+\begin{equation}
+ \Pr(\text{accept})=\exp[-\Delta/\max(T,10^{-9})].
+\end{equation}
+The temperature starts at 0.05, is multiplied by 0.995 per completed iteration, and is bounded below by $10^{-5}$.
+
+Destroy and repair operators begin with equal weights. An archive addition receives reward 10, a dominating candidate reward 5, and any other accepted candidate reward 1. After segments of 15 iterations, the weight of operator $o$ is updated as
+\begin{equation}
+ \omega_o\leftarrow (1-\lambda)\omega_o+lambda\frac{\pi_o}{\max(1,\nu_o)},
+ \qquad \lambda=0.25,
+\end{equation}
+where $\pi_o$ and $\nu_o$ are segment reward and usage count. Selection probabilities are proportional to the resulting positive weights.
+
+The complete procedure is summarized below.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item Construct a feasible solution; initialize the archive and operator weights.
+    \item Optionally select an archive parent; sample objective weights and destroy/repair operators.
+    \item Remove requests, repair the partial solution, and evaluate all three objectives.
+    \item Update the non-dominated archive and apply simulated-annealing acceptance.
+    \item Record rewards, cool the temperature, and periodically adapt operator weights.
+    \item Repeat until the iteration or wall-clock limit is reached; return the archive.
+\end{enumerate}
+
+\section{Comparison Algorithms}
+
+All methods use the same route representation, feasibility evaluator, objective functions, initial construction logic, and destroy/repair routines. Their differences therefore concern multi-objective search control rather than problem interpretation.
+
+\paragraph{NSGA-II.} The population is ranked by non-dominated fronts and crowding distance \cite{deb2002nsga2}. Binary tournaments select parents. A route-inheritance crossover copies complete compatible routes from one parent and repairs requests not yet assigned using information from the other parent. Destroy--repair mutation then improves structural diversity. Elitist environmental selection retains 50 solutions.
+
+\paragraph{MOEA/D.} Fifty simplex weight vectors define scalar subproblems \cite{zhang2007moead}. Each subproblem interacts with its five nearest neighbors in weight space. Route crossover and destroy--repair mutation create an offspring, and an ideal-point Tchebycheff comparison determines replacement in neighboring subproblems.
+
+\paragraph{Epsilon-constraint.} Cost is the primary objective, while maximum duration and workload imbalance are bounded on a $5\times5$ grid. An initialization sample estimates the ranges used to create the 25 cells. Each cell receives an equal share of the remaining time and is improved by destroy--repair moves ordered lexicographically by total normalized constraint violation and then cost. This is a heuristic epsilon-constraint baseline, not an exact mixed-integer implementation of AUGMECON \cite{mavrotas2009epsilon}.
+
+\section{Experimental Design}
+
+\subsection{Instances and implementation}
+
+Table~\ref{tab:instances} summarizes the instances. The Current instance represents a heterogeneous urban dispatch problem with 27 requests, six motorcycles, three pickup trucks, driver-specific origins, and road-network distance and duration matrices. Vehicle capacities are 120 and 800~kg, with operating costs of 400 and 1,000 VND/km, respectively. The other three instances retain the first 12 requests from the clustered (LC101), random (LR101), and mixed (LRC101) Li--Lim families \cite{li2003metaheuristic}. Time windows and service times are removed, four homogeneous vehicles are supplied, and Euclidean travel is used. We label these as development instances rather than the original benchmark problems.
+
+\begin{table}[tbp]
+\centering
+\caption{Experimental instances.}
+\label{tab:instances}
+\begin{tabular}{lrrll}
+\toprule
+Instance & Requests & Drivers & Fleet & Travel data \\
+\midrule
+Current & 27 & 9 & Heterogeneous & OSRM road network \\
+LC101-12 & 12 & 4 & Homogeneous & Euclidean \\
+LR101-12 & 12 & 4 & Homogeneous & Euclidean \\
+LRC101-12 & 12 & 4 & Homogeneous & Euclidean \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The algorithms are implemented in Python 3.11.5 using NumPy 2.4.6, pandas 3.0.3, and SciPy 1.17.1. Experiments ran on Windows 11 with an Intel Core i7-12700H (14 physical cores, 20 logical processors) and 15.7~GB RAM. Each method received 600 seconds per instance and seed. Seeds 42--51 were used, yielding $4\times10\times4=160$ runs. \MOALNS{} had an upper bound of 5,000 iterations and an archive limit of 100; time was the binding termination criterion. NSGA-II and MOEA/D used populations of 50. No parallel objective evaluation was used.
+
+\subsection{Quality indicators and statistics}
+
+For each instance, the archives from all algorithms and all seeds are pooled to obtain one fixed componentwise ideal and nadir. These per-instance bounds define min--max normalized objectives for every run of that instance. Hypervolume (HV) is computed against reference point $(1.1,1.1,1.1)$ and divided by $1.1^3$; higher values indicate better convergence and coverage \cite{zitzler1999multiobjective}. Because all algorithms and seeds of an instance share the same bounds, HV values are directly comparable within that instance. For each instance--seed block, the four archives are also merged to determine union-front contribution. Spacing measures nearest-neighbor regularity in normalized objective space; lower is better. We additionally report archive size and empirical coverage $C(A,B)$, the proportion of solutions from $B$ dominated by at least one solution from $A$.
+
+Within every instance--seed block, algorithms are ranked by HV. A Friedman test evaluates an omnibus difference across the 40 blocks. Pairwise Wilcoxon signed-rank tests use Holm correction. The ten seeds of one instance are repeated stochastic trials, not ten independent problem instances. We therefore also aggregate to four instance means: the instance-level Friedman test is reported, while pairwise tests at that level have little power.
+
+\section{Results}
+
+\subsection{Hypervolume and ranking}
+
+\begin{table}[tbp]
+\centering
+\caption{Normalized hypervolume by instance (mean $\pm$ standard deviation over ten seeds). Best means are bold.}
+\label{tab:hv-instance}
+\begin{tabular}{lrrrr}
+\toprule
+ & \MOALNS{} & MOEA/D & NSGA-II & Epsilon \\
+\midrule
+Current & \textbf{.7014$\pm$.0265} & .6936$\pm$.0438 & .6665$\pm$.0328 & .4134$\pm$.0407 \\
+LC101-12 & \textbf{.7917$\pm$.0055} & .7403$\pm$.1173 & .7126$\pm$.0674 & .6227$\pm$.0505 \\
+LR101-12 & \textbf{.8933$\pm$.0066} & .8848$\pm$.0140 & .8639$\pm$.0393 & .7190$\pm$.0912 \\
+LRC101-12 & \textbf{.7449$\pm$.0001} & .7411$\pm$.0060 & .7448$\pm$.0005 & .7313$\pm$.0287 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\MOALNS{} obtains the highest mean HV on all four instances (Table~\ref{tab:hv-instance}). Its advantage is clear on Current, LC101-12, and LR101-12. LRC101-12 is effectively tied: the mean gap from NSGA-II is only 0.0001, and both methods show very small variance. MOEA/D is the strongest baseline overall and approaches \MOALNS{} on Current and LR101-12, although its LC101-12 variance is notably larger.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=.88\linewidth]{fig_hypervolume_by_instance.pdf}
+\caption{Mean normalized hypervolume and standard deviation over ten seeds under equal 600-second budgets. Higher is better.}
+\label{fig:hv-instance}
+\end{figure}
+
+\begin{table}[tbp]
+\centering
+\caption{Overall performance across 40 paired instance--seed blocks. HV rank and spacing rank are minimized; HV, wins, and union contribution are maximized.}
+\label{tab:overall}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Method & Mean HV & HV rank & Wins & Spacing & Sp. rank & Archive & Union \\
+\midrule
+\MOALNS{} & \textbf{.7829} & \textbf{1.5125} & \textbf{21} & .1366 & \textbf{2.0375} & \textbf{24.88} & \textbf{735} \\
+MOEA/D & .7650 & 2.3375 & 8 & \textbf{.1356} & 2.3500 & 19.83 & 450 \\
+NSGA-II & .7469 & 2.5500 & 2 & .1559 & 2.6875 & 20.55 & 354 \\
+Epsilon & .6216 & 3.6000 & 0 & .1633 & 2.9250 & 12.75 & 222 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across all blocks, \MOALNS{} has mean HV 0.7829, compared with 0.7650 for MOEA/D, 0.7469 for NSGA-II, and 0.6216 for epsilon-constraint (Table~\ref{tab:overall}). It wins 21 blocks and has the best mean HV rank. MOEA/D has a marginally smaller raw spacing value, but \MOALNS{} has the best mean within-block spacing rank; archive coverage rather than a single diversity statistic explains most of its HV advantage. \MOALNS{} also contributes 735 solutions to paired empirical union fronts, substantially more than the competing methods.
+
+\begin{figure}[tbp]
+\centering
+\begin{subfigure}{.49\linewidth}
+\includegraphics[width=\linewidth]{fig_hypervolume_distribution.pdf}
+\caption{HV distribution.}
+\end{subfigure}
+\begin{subfigure}{.49\linewidth}
+\includegraphics[width=\linewidth]{fig_average_hypervolume_rank.pdf}
+\caption{Mean HV rank.}
+\end{subfigure}
+\caption{Aggregate quality across the 40 paired blocks.}
+\label{fig:aggregate}
+\end{figure}
+
+\subsection{Statistical comparisons}
+
+The block-level Friedman statistic is $\chi^2=56.5293$ ($p=3.239\times10^{-12}$). Table~\ref{tab:stats} reports pairwise tests. \MOALNS{} exceeds MOEA/D in 28 blocks, ties in three, and loses in nine; its mean difference is 0.0179 and the Holm-adjusted $p$-value is 0.00775. The gaps to NSGA-II and epsilon-constraint are larger. At the more conservative instance-mean level, the Friedman test remains significant ($\chi^2=11.10$, $p=0.0112$). With only four independent instances, however, a two-sided exact pairwise Wilcoxon test cannot attain conventional significance (minimum possible $p=0.125$). Thus the tests support consistent stochastic performance on the tested instances, not broad population-level generalization.
+
+\begin{table}[tbp]
+\centering
+\caption{Wilcoxon signed-rank comparisons of HV with Holm correction over 40 blocks. Positive differences favor the row's \MOALNS{} comparator.}
+\label{tab:stats}
+\begin{tabular}{lrrr}
+\toprule
+Comparison & Mean $\Delta$HV & W--T--L & Holm $p$ \\
+\midrule
+\MOALNS{} vs MOEA/D & .0179 & 28--3--9 & .007751 \\
+\MOALNS{} vs NSGA-II & .0359 & 29--7--4 & $3.087\times10^{-5}$ \\
+\MOALNS{} vs Epsilon & .1612 & 35--4--1 & $9.146\times10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Dominance and practical trade-offs}
+
+Averaged over blocks, 41.0\% of NSGA-II solutions, 31.8\% of MOEA/D solutions, and 39.4\% of epsilon-constraint solutions are dominated by at least one \MOALNS{} solution. The reverse coverage values are 6.9\%, 10.4\%, and 1.9\%, respectively. This asymmetry indicates that the gain is not solely due to a larger archive: \MOALNS{} more often supplies genuinely better trade-off vectors.
+
+\begin{figure}[tbp]
+\centering
+\begin{subfigure}{.49\linewidth}
+\includegraphics[width=\linewidth]{fig_mean_coverage_heatmap.pdf}
+\caption{Mean empirical coverage $C(A,B)$.}
+\end{subfigure}
+\begin{subfigure}{.49\linewidth}
+\includegraphics[width=\linewidth]{fig_union_front_contribution.pdf}
+\caption{Mean union-front contribution.}
+\end{subfigure}
+\caption{Dominance relations and useful archive contributions.}
+\label{fig:coverage}
+\end{figure}
+
+On the Current instance, no single method is best on every criterion (Table~\ref{tab:extremes}). The heuristic epsilon method discovers the smallest cost, 137,103.8 VND, but its best maximum duration is 64.55 minutes and its best imbalance is 1.414. \MOALNS{} reaches a cost within 0.8\% of that value while finding the shortest maximum duration, 48.23 minutes, and the best observed imbalance, 0.471. A separate OR-Tools cost-focused reference found 132,961 VND; it is not a three-objective baseline, but it suggests that injecting a cost-optimal or cost-strong anchor into the initial archive could improve the low-cost extreme.
+
+\begin{table}[tbp]
+\centering
+\caption{Best single-criterion values found for the Current instance across all seeds. Each column may correspond to a different solution.}
+\label{tab:extremes}
+\begin{tabular}{lrrr}
+\toprule
+Method & Cost (VND) & Max duration (min) & Imbalance \\
+\midrule
+\MOALNS{} & 138,188.4 & \textbf{48.232} & \textbf{0.471} \\
+MOEA/D & 139,161.8 & 48.693 & \textbf{0.471} \\
+NSGA-II & 140,226.8 & 49.963 & \textbf{0.471} \\
+Epsilon & \textbf{137,103.8} & 64.552 & 1.414 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{fig_current_empirical_pareto_front.pdf}
+\caption{Pairwise projections of the empirical non-dominated union over all seeds for the Current instance. All objectives are minimized.}
+\label{fig:current-front}
+\end{figure}
+
+Mean runtimes are 600.44, 600.85, 601.05, and 600.79 seconds for \MOALNS{}, MOEA/D, NSGA-II, and epsilon-constraint, respectively. Small overshoots occur because a candidate evaluation completes before termination is recorded. The close runtimes confirm that quality comparisons use essentially equal compute budgets.
+
+\section{Decision Support and Operational Use}
+
+The solver returns a set rather than a forced compromise. In daily operation, requests, vehicle availability, driver starts, and an asymmetric road distance/time matrix are supplied to the optimizer. Each archive member is a fully feasible dispatch plan with route sequences and objective values. A dispatcher can first discard solutions violating a service-level threshold (for example, maximum duration above 60 minutes), then inspect the remaining cost--equity trade-offs.
+
+A compact multi-criteria decision-making layer ranks the final archive using two complementary rules. TOPSIS is a compensatory distance-to-ideal method, whereas PROMETHEE II uses pairwise outranking and net preference flow. Both select from the same non-dominated archive and do not change routing feasibility. Restricting the conference study to these two rules keeps the emphasis on routing optimization; learned preference selectors and a broader MCDM comparison are reserved for future work with independently labeled dispatcher choices.
+
+For deployment, road-network matrices should be refreshed, routes reoptimized on a rolling horizon when new requests arrive, and already executed actions frozen. The present open-route model is appropriate when drivers may finish at their last customer. Operations requiring depot return, service times, time windows, breaks, or driver shift limits need corresponding constraints before field use.
+
+\section{Discussion and Limitations}\label{sec:limitations}
+
+The results suggest three algorithmic observations. First, adaptive large-neighborhood moves are well matched to paired requests because assignment, pickup position, and delivery position can be changed together. Second, randomized Tchebycheff weights and archive-parent sampling allow one trajectory to revisit multiple trade-off regions. Third, decomposition is competitive: MOEA/D is consistently the nearest baseline, indicating that explicit coverage of scalar subproblems is valuable for this problem.
+
+Several limitations constrain the claims. Most importantly, there are only four instances, and three are small 12-request derivatives of Li--Lim PDPTW data rather than full standard instances. Removing time windows changes both feasibility and difficulty. The Current instance is operationally richer but represents one day and one geography. The 40 seed-level blocks are useful paired stochastic trials but are not 40 independent routing environments.
+
+The equity metric counts requests, even though requests differ in demand and geography. Future work should compare count, distance, duration, and economic workload, and should evaluate the consistency or monotonicity properties emphasized in the equity literature \cite{matl2018equity}. The objective currently uses travel time only; service times and time-dependent congestion are absent. Hypervolume bounds are constructed from the compared runs, so adding a stronger algorithm can change absolute normalized values, although paired rankings in the present experiment remain valid.
+
+The most important next experiments are therefore: (i) create or adopt a full-size PDVRP-without-time-windows benchmark with 25--100 requests and independent clustered, random, and mixed instances; (ii) include ablations for adaptation, archive-parent sampling, Tchebycheff repair, simulated annealing, and each operator family; (iii) report convergence versus time and at several time budgets; and (iv) warm-start all methods with identical cost, duration, and equity anchors. These additions would turn the current strong development study into a more defensible conference evaluation.
+
+\section{Conclusion}
+
+This paper introduced a three-objective heterogeneous open PDVRP and a Pareto-based adaptive large neighborhood search. \MOALNS{} combines paired feasibility-preserving destroy--repair moves with changing augmented Tchebycheff preferences, simulated annealing, adaptive operator rewards, and a crowding-controlled archive. Under equal 600-second budgets, it achieved the highest mean hypervolume on all four tested instances and significantly outperformed the three comparison methods in paired seed-level tests. It also supplied the largest share of useful empirical Pareto solutions. These findings support the method as a promising optimizer and decision-support component, while full-size independent instances and ablation studies remain necessary before making a broad state-of-the-art claim.
+
+\section*{Reproducibility Statement}
+
+The repository includes source code, instance manifests, seeds, per-run solver reports and Pareto archives, aggregate quality metrics, and scripts that regenerate all tables and figures. The benchmark is launched by \texttt{run\_multiobjective\_benchmark.ps1}; paper artifacts are regenerated by \texttt{generate\_paper\_outputs.ps1}.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

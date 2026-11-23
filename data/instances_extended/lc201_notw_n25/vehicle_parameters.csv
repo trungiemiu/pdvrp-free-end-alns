@@ -1,0 +1,2 @@
+vehicle_type,number,capacity_kg,revenue_under_30km_vnd,build_up_revenue_vnd_per_km,cost_vnd_per_km
+benchmark_vehicle,6,700.0,0,0,1

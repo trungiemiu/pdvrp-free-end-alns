@@ -1,0 +1,13 @@
+﻿node_id,node_type,related_id,address,lat,lon
+P01,pickup,O01,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam",,
+P03,pickup,O03,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam",,
+L03,delivery,O03,"Tầng trệt cao ốc SCREC, Số 974A TP, 974 Đ. Trường Sa, Phường 12, Quận 3, Thành phố Hồ Chí Minh, Vietnam",,
+P04,pickup,O04,"Chung cư Hope Garden, 102 Phan Huy Ích, Phường 15, Tân Bình, Thành phố Hồ Chí Minh, Vietnam",,
+L04,delivery,O04,"Tầng trệt - block, 4 Phan Chu Trinh, Phường 12, Bình Thạnh, Thành phố Hồ Chí Minh 72312, Vietnam",,
+P13,pickup,O13,"RMHJ+4P6, Trần Thị Nghỉ, Phường 7, Gò Vấp, Thành phố Hồ Chí Minh, Vietnam",,
+P15,pickup,O15,"265A Đ. Nguyễn Ảnh Thủ, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Vietnam",,
+L19,delivery,O19,"488 Kinh A, Lê Minh Xuân, Bình Chánh, Thành phố Hồ Chí Minh 700000, Việt Nam",,
+L22,delivery,O22,"141 Đ. Bắc Hải, Phường 14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam",,
+P23,pickup,O23,"Chung cư Phú Thọ - Khu B, Khu A, Nguyễn Thị Nhỏ, Phường 15, Quận 11, Thành phố Hồ Chí Minh, Vietnam",,
+L24,delivery,O24,"118/57 Bis Trần Quang Diệu, Phường 14, Quận 3, Thành phố Hồ Chí Minh 700000, Việt Nam",,
+P25,pickup,O25,"Tòa nhà Pearl Plaza, 561A Đ. Điện Biên Phủ, Phường 25, Bình Thạnh, Thành phố Hồ Chí Minh, Vietnam",,

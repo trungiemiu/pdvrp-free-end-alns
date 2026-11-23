@@ -1,0 +1,3 @@
+vehicle_type,number,capacity_kg,revenue_under_30km_vnd,build_up_revenue_vnd_per_km,cost_vnd_per_km
+motorcycle,6,120,21000,1000,400
+pickup_truck,3,800,45000,2000,1000

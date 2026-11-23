@@ -1,0 +1,10 @@
+driver_id,vehicle_type,start_lat,start_lon
+D01,motorcycle,10.801031,106.721109
+D02,motorcycle,10.854746,106.705692
+D03,motorcycle,10.754286,106.662600
+D04,motorcycle,10.853004,106.753698
+D05,motorcycle,10.791675,106.676091
+D06,motorcycle,10.850478,106.747421
+D07,pickup_truck,10.854536,106.758383
+D08,pickup_truck,10.778117,106.689128
+D09,pickup_truck,10.735431,106.692488

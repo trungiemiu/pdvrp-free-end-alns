@@ -1,0 +1,5 @@
+order_id,pickup_address,delivery_address,store_type,demand_kg,required_vehicle
+O01,benchmark_node_2,benchmark_node_73,LiLim,7.0,benchmark_vehicle
+O02,benchmark_node_5,benchmark_node_85,LiLim,26.0,benchmark_vehicle
+O03,benchmark_node_8,benchmark_node_17,LiLim,9.0,benchmark_vehicle
+O04,benchmark_node_11,benchmark_node_20,LiLim,12.0,benchmark_vehicle
